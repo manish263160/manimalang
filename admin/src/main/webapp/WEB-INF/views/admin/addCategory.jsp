@@ -153,7 +153,7 @@ body {
 	function insertCall() {
 		console.log('----',$("#namecat").val()+'   ',$("#categoryForm").valid(),'  ---',$("#catFor").valid());
 		if($("#categoryForm").valid()){
-		$.post( "${imgvids}/admin/insertCategorySeries/categories", { name: $("#namecat").val(),catFor: $("#catFor").val()})
+		$.post( "${imgvids}/admin/insertCategoryTags/categories", { name: $("#namecat").val(),catFor: $("#catFor").val()})
 		  .done(function( data ) {
 		    if(data){
 		    	$("#categoryForm")[0].reset();
@@ -167,7 +167,7 @@ body {
 		var name=$("#editedname").val();
     	var id=$("#editid").val();
     	if($("#categoryFormEdit").valid()){
-    		$.post( "${imgvids}/admin/editCategorySeries/categories", { name: name,id : id })
+    		$.post( "${imgvids}/admin/editCategoryTags/categories", { name: name,id : id })
     		  .done(function( data ) {
     		    if(data){
 //     		    	$("#categoryFormEdit")[0].reset();

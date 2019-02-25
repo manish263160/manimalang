@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.manimalang.Enums.STATUS;
 import com.manimalang.exception.GenericException;
-import com.manimalang.models.CategrySeriesModels;
+import com.manimalang.models.CategryTagsModels;
 import com.manimalang.models.FetchVideoJson;
 import com.manimalang.models.UploadedImage;
 import com.manimalang.models.UploadedNews;
@@ -104,7 +104,7 @@ public class UserController {
 		model.addAttribute("user", user);
 		model.addAttribute("error", error);
 		model.addAttribute("themecolor", this.applicationProperties.getProperty("themecolor"));
-		List<CategrySeriesModels> categorylist=adminService.getAllCategoryForImagesVideo(STATUS.IMAGE.ID);
+		List<CategryTagsModels> categorylist=adminService.getAllCategoryForImagesVideo(STATUS.IMAGE.ID);
 		model.addAttribute("categorylist", categorylist);
 		return "newsUploaded/uploadNews";
 	}
@@ -115,7 +115,7 @@ public class UserController {
 		model.addAttribute("user", user);
 		model.addAttribute("error", error);
 		model.addAttribute("themecolor", this.applicationProperties.getProperty("themecolor"));
-		List<CategrySeriesModels> categorylist=adminService.getAllCategoryForImagesVideo(STATUS.IMAGE.ID);
+		List<CategryTagsModels> categorylist=adminService.getAllCategoryForImagesVideo(STATUS.IMAGE.ID);
 		model.addAttribute("categorylist", categorylist);
 		return "imageUpload/uploadImage";
 	}
@@ -125,14 +125,14 @@ public class UserController {
 			HttpServletRequest request) {
 		User user = GenUtilitis.getLoggedInUser();
 		
-		String fetchTable="series";
-		List<CategrySeriesModels> serieslist=adminService.getAllCategorySeries(fetchTable , "uploadVideo");
+		String fetchTable="tags";
+		List<CategryTagsModels> tagslist=adminService.getAllCategoryTags(fetchTable , "uploadVideo");
 		
 		String fetchTablecate="categories";
-		List<CategrySeriesModels> categorylist=adminService.getAllCategorySeries(fetchTablecate , "uploadVideo");
+		List<CategryTagsModels> categorylist=adminService.getAllCategoryTags(fetchTablecate , "uploadVideo");
 		
 		model.addAttribute("categorylist", categorylist);
-		model.addAttribute("serieslist", serieslist);
+		model.addAttribute("tagslist", tagslist);
 		model.addAttribute("user", user);
 		model.addAttribute("error", error);
 		model.addAttribute("themecolor", this.applicationProperties.getProperty("themecolor"));
@@ -203,18 +203,18 @@ public class UserController {
 		});*/
 //		model.addAttribute("allfileList", allfileList);
 		String token="categoryWise";
-		String token1="seriesWise";
+		String token1="tagsWise";
 		
 		List<FetchVideoJson> categoriesWise = adminService.fetchAllVidsWeb(token);
-		List<FetchVideoJson> seriesWise = adminService.fetchAllVidsWeb(token1);
+		List<FetchVideoJson> tagsWise = adminService.fetchAllVidsWeb(token1);
 		LinkedHashSet<String> uniqueDate = new LinkedHashSet<String>();
 		logger.debug("categoriesWise data----"+ categoriesWise.toString());
-		logger.debug("seriesWise data----"+ seriesWise.toString());
+		logger.debug("tagsWise data----"+ tagsWise.toString());
 		model.addAttribute("user", user);
 		model.addAttribute("error", error);
 		model.addAttribute("themecolor", this.applicationProperties.getProperty("themecolor"));
 		model.addAttribute("categoriesWise", categoriesWise);
-		model.addAttribute("seriesWise", seriesWise);
+		model.addAttribute("tagsWise", tagsWise);
 		model.addAttribute("uniqueDate", uniqueDate);
 		model.addAttribute("active", "video");
 		}

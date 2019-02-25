@@ -257,6 +257,14 @@ public class UserServiceImpl implements UserService {
 			}
 			return (T) uploadiMg;
 		}
+		if(tableName.equals("uploaded_news")){
+			UploadedNews uploadiMg= userDao.getImageByImgId(editImageInfo,tableName);
+			if(!token){
+			uploadiMg.setImageUrl(applicationProperties.getProperty(ApplicationConstants.APP_PATH) + uploadiMg.getUserId()
+			+ applicationProperties.getProperty(ApplicationConstants.UPLOADED_NEWS) + uploadiMg.getImageUrl());
+			}
+			return (T) uploadiMg;
+		}
 		
 		return null;
 	}

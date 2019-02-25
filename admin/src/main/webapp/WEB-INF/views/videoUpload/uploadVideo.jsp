@@ -83,12 +83,12 @@
                         </div>
                         
                   <div class="col s12 m3 l3">
-	                <p>Series</p>
+	                <p>Tags</p>
 	              </div>
                   <div class="input-field col s12 m3 l3">
-					<select name="seriesId" id="seriesId" class="validate" >
-						<option value="" selected>Select Series</option>
-						<c:forEach items="${serieslist }" var="sers">
+					<select name="tagsId" id="tagsId" class="validate" >
+						<option value="" selected>Select Tags</option>
+						<c:forEach items="${tagslist }" var="sers">
 							<option value="${sers.id }">${sers.name }</option>
 						</c:forEach>
 					</select>
@@ -169,9 +169,9 @@
 	                /* timeLength :{
 	                	required: true,
 	                }, */
-	               /*  seriesId :{
+	               /*  tagsId :{
 	                	required: function(){
-	                		if($("#seriesId").val() !=='' || $("categoryId").val() !==''){
+	                		if($("#tagsId").val() !=='' || $("categoryId").val() !==''){
 	                			return true;
 	                		}else {
 	                			return false;
@@ -180,7 +180,7 @@
 	                }, */
 	                categoryId :{
 	                	required: function(){
-	                		if(($("#seriesId").val() !=='' && $("#seriesId").val() != null)  || ($("#categoryId").val() !=='' && $("#categoryId").val() !=null)){
+	                		if(($("#tagsId").val() !=='' && $("#tagsId").val() != null)  || ($("#categoryId").val() !=='' && $("#categoryId").val() !=null)){
 	                			return false;
 	                		}else {
 	                			return true;

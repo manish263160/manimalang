@@ -13,7 +13,7 @@ public class UploadedVideo implements Serializable{
 	private String  videoLink;
 	private String videoThumbnail;
 	private String categoryId;
-	private String seriesId;
+	private String tagsId;
 	private String timeLength;
 	private String title;
 	private String description;
@@ -24,7 +24,7 @@ public class UploadedVideo implements Serializable{
 	private String oldVideoName;
 	private String totalVideoCount;
 	private String categoryName;
-	private String seriesName;
+	private String tagsName;
 	public String getNewSetDate() {
 		return newSetDate;
 	}
@@ -105,11 +105,11 @@ public class UploadedVideo implements Serializable{
 		}
 		this.categoryId = categoryId;
 	}
-	public String getSeriesId() {
-		return seriesId;
+	public String getTagsId() {
+		return tagsId;
 	}
-	public void setSeriesId(String seriesId) {
-		this.seriesId = seriesId;
+	public void setTagsId(String tagsId) {
+		this.tagsId = tagsId;
 	}
 	public String getCategoryName() {
 		return categoryName;
@@ -120,11 +120,11 @@ public class UploadedVideo implements Serializable{
 		else
 			this.categoryName = "";	
 	}
-	public String getSeriesName() {
-		return seriesName;
+	public String getTagsName() {
+		return tagsName;
 	}
-	public void setSeriesName(String seriesName) {
-		this.seriesName = seriesName;
+	public void setTagsName(String tagsName) {
+		this.tagsName = tagsName;
 	}
 	public String getOldVideoName() {
 		return oldVideoName;

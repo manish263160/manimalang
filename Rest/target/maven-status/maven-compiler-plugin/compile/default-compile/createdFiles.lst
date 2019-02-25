@@ -1,1 +1,14 @@
+com\manimalang\config\WebSecurityConfig.class
+com\manimalang\config\ApplicationContextConfig$1.class
+com\manimalang\config\ResourceServerConfig.class
+com\manimalang\security\CustomUserDetailsService$UserRepositoryUserDetails.class
+com\manimalang\controller\RestTempletForWeb.class
+com\manimalang\config\AuthorizationServerConfig.class
 com\manimalang\security\CustomUserDetailsService$1.class
+com\novoboot\jwtconfig\CustomTokenEnhancer.class
+com\manimalang\Application.class
+com\manimalang\controller\ManiMalangRestController.class
+com\manimalang\controller\SeoController.class
+com\manimalang\config\ApplicationContextConfig.class
+com\manimalang\security\CustomUserDetailsService.class
+com\manimalang\security\ManiAuthenticationProvider.class

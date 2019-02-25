@@ -2,14 +2,14 @@ D:\My_project\manimalang\Rest\src\main\java\com\novoboot\jwtconfig\CustomTokenEn
 D:\My_project\manimalang\Rest\src\main\java\com\manimalang\config\CORSFilter.java
 D:\My_project\manimalang\Rest\src\main\java\com\manimalang\Application.java
 D:\My_project\manimalang\Rest\src\main\java\com\manimalang\config\WebSecurityConfig.java
+D:\My_project\manimalang\Rest\src\main\java\com\manimalang\security\ManiAuthenticationProvider.java
+D:\My_project\manimalang\Rest\src\main\java\com\manimalang\controller\ManiMalangRestController.java
 D:\My_project\manimalang\Rest\src\main\java\com\manimalang\controller\SeoController.java
 D:\My_project\manimalang\Rest\src\main\java\com\manimalang\config\ApplicationContextConfig.java
 D:\My_project\manimalang\Rest\src\main\java\com\manimalang\security\CustomUserDetailsService.java
 D:\My_project\manimalang\Rest\src\main\java\com\manimalang\config\AuthorizationServerConfig.java
 D:\My_project\manimalang\Rest\src\main\java\com\novoboot\jwtconfig\JwtAuthenticationFilter.java
-D:\My_project\manimalang\Rest\src\main\java\com\manimalang\security\NovoAuthenticationProvider.java
 D:\My_project\manimalang\Rest\src\main\java\com\manimalang\config\ResourceServerConfig.java
 D:\My_project\manimalang\Rest\src\main\java\com\novoboot\jwtconfig\TokenProvider.java
 D:\My_project\manimalang\Rest\src\main\java\com\manimalang\controller\RestTempletForWeb.java
 D:\My_project\manimalang\Rest\src\main\java\com\novoboot\jwtconfig\CustomAuthenticationEntryPoint.java
-D:\My_project\manimalang\Rest\src\main\java\com\manimalang\controller\ImgVidsRestController.java

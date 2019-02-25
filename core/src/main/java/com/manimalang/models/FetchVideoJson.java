@@ -9,22 +9,22 @@ public class FetchVideoJson implements Serializable{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String seriesName;
-	private List<GetVideoByCatSerDto> seriesList;
+	private String tagsName;
+	private List<GetVideoByCatSerDto> tagsList;
 	
 	private String categoryName;
 	private List<GetVideoByCatSerDto> categoryList;
-	public String getSeriesName() {
-		return seriesName;
+	public String getTagsName() {
+		return tagsName;
 	}
-	public void setSeriesName(String seriesName) {
-		this.seriesName = seriesName;
+	public void setTagsName(String tagsName) {
+		this.tagsName = tagsName;
 	}
-	public List<GetVideoByCatSerDto> getSeriesList() {
-		return seriesList;
+	public List<GetVideoByCatSerDto> getTagsList() {
+		return tagsList;
 	}
-	public void setSeriesList(List<GetVideoByCatSerDto> seriesList) {
-		this.seriesList = seriesList;
+	public void setTagsList(List<GetVideoByCatSerDto> tagsList) {
+		this.tagsList = tagsList;
 	}
 	public String getCategoryName() {
 		return categoryName;

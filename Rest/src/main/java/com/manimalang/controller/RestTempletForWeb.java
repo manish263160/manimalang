@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.manimalang.Enums.STATUS;
 import com.manimalang.models.ApplicationPropertyKeyVal;
-import com.manimalang.models.CategrySeriesModels;
+import com.manimalang.models.CategryTagsModels;
 import com.manimalang.models.FetchVideoJson;
 import com.manimalang.models.GetVideoByCatSerDto;
 import com.manimalang.models.UploadedImage;
@@ -65,26 +65,26 @@ public class RestTempletForWeb {
 		Map<String, List<FetchVideoJson>> finalmap=new HashMap<String, List<FetchVideoJson>>();
 		
 		String token="categoryWise";
-		String token1="seriesWise";
+		String token1="tagsWise";
 		
 		List<FetchVideoJson> categoriesWise = adminService.fetchAllVids(token,start,end);
-		List<FetchVideoJson> seriesWise = adminService.fetchAllVids(token1,start,end);
+		List<FetchVideoJson> tagsWise = adminService.fetchAllVids(token1,start,end);
 		
         finalmap.put("categoriesData", categoriesWise);
-        finalmap.put("seriesData", seriesWise);
+        finalmap.put("tagsData", tagsWise);
         return new ResponseEntity<Map<String, List<FetchVideoJson>>> (finalmap, HttpStatus.OK);
     }
 	
-	@RequestMapping(value = "/webSeries", method = RequestMethod.GET )
-    public ResponseEntity<List<FetchVideoJson>> webSeries(@RequestParam(required = false)String start ,@RequestParam(required = false) String end) {
+	@RequestMapping(value = "/webTags", method = RequestMethod.GET )
+    public ResponseEntity<List<FetchVideoJson>> webTags(@RequestParam(required = false)String start ,@RequestParam(required = false) String end) {
 		
 		String token="categoryWise";
-		String token1="seriesWise";
+		String token1="tagsWise";
 		
 //		List<FetchVideoJson> categoriesWise = adminService.fetchAllVids(token,start,end);
-		List<FetchVideoJson> seriesWise = adminService.fetchAllVids(token1,start,end);
+		List<FetchVideoJson> tagsWise = adminService.fetchAllVids(token1,start,end);
 		
-        return new ResponseEntity<List<FetchVideoJson>> (seriesWise, HttpStatus.OK);
+        return new ResponseEntity<List<FetchVideoJson>> (tagsWise, HttpStatus.OK);
     }
 	
 	@RequestMapping(value = "/searchVideo", method = RequestMethod.GET )
@@ -103,23 +103,23 @@ public class RestTempletForWeb {
 		return new ResponseEntity<List<UploadedImage>>(getData, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/fetchVideoByCatSeries", method = RequestMethod.GET)
-	public ResponseEntity<List<UploadedVideo>> fetchVideoByCatSeries(@RequestParam String start,
-			@RequestParam String end, @RequestParam(required = false) String categoryOrSeriesName,
+	@RequestMapping(value = "/fetchVideoByCatTags", method = RequestMethod.GET)
+	public ResponseEntity<List<UploadedVideo>> fetchVideoByCatTags(@RequestParam String start,
+			@RequestParam String end, @RequestParam(required = false) String categoryOrTagsName,
 			@RequestParam String token) {
 		String queryFor = "category" ;
 		if(token.equals("1")) {  // this is for category case.
 			queryFor="category";
 		}else if(token.equals("2")){      // this is for serties case.
-			queryFor ="series";
+			queryFor ="tags";
 		}
-		List<UploadedVideo> getData = adminService.fetchVideoByCatSeries(categoryOrSeriesName, start, end , queryFor);
+		List<UploadedVideo> getData = adminService.fetchVideoByCatTags(categoryOrTagsName, start, end , queryFor);
 		return new ResponseEntity<List<UploadedVideo>>(getData, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/getRestAllCategory", method = RequestMethod.GET)
-	public ResponseEntity<List<CategrySeriesModels>> getRestAllCategory(@RequestParam String token) {
-		List<CategrySeriesModels> getCat =null;
+	public ResponseEntity<List<CategryTagsModels>> getRestAllCategory(@RequestParam String token) {
+		List<CategryTagsModels> getCat =null;
 		if(token.equals("video")) {
 			String table="uploaded_video";
 			getCat = adminService.getRestAllCategory(STATUS.VIDEO.ID, table); 
@@ -128,15 +128,15 @@ public class RestTempletForWeb {
 			String table="uploaded_image";
 			getCat = adminService.getRestAllCategory(STATUS.IMAGE.ID, table);	
 		}
-		return new ResponseEntity<List<CategrySeriesModels>>(getCat, HttpStatus.OK);
+		return new ResponseEntity<List<CategryTagsModels>>(getCat, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/getRestAllSeries", method = RequestMethod.GET)
-	public ResponseEntity<List<CategrySeriesModels>> getRestAllSeries() {
-		List<CategrySeriesModels> getCat =null;
-		String fetchTable="series";
-		List<CategrySeriesModels> serieslist=adminService.getAllCategorySeries(fetchTable , null);
-		return new ResponseEntity<List<CategrySeriesModels>>(serieslist, HttpStatus.OK);
+	@RequestMapping(value = "/getRestAllTags", method = RequestMethod.GET)
+	public ResponseEntity<List<CategryTagsModels>> getRestAllTags() {
+		List<CategryTagsModels> getCat =null;
+		String fetchTable="tags";
+		List<CategryTagsModels> tagslist=adminService.getAllCategoryTags(fetchTable , null);
+		return new ResponseEntity<List<CategryTagsModels>>(tagslist, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/allCategorywiseVidsForUI", method = RequestMethod.GET )
@@ -157,20 +157,20 @@ public class RestTempletForWeb {
 	}
 	
 	@RequestMapping(value = "/allCategoryWiseImageForUI", method = RequestMethod.GET )
-	public ResponseEntity<List<UploadedImage>> allCategoryWiseImageForUI(@RequestParam(required = false) String categoryOrSeriesName) {
+	public ResponseEntity<List<UploadedImage>> allCategoryWiseImageForUI(@RequestParam(required = false) String categoryOrTagsName) {
 		
-		List<UploadedImage> list=adminService.getAllImageForUI(categoryOrSeriesName );
+		List<UploadedImage> list=adminService.getAllImageForUI(categoryOrTagsName );
 		
 		return new ResponseEntity<List<UploadedImage>>(list, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/getAllWebSeriesVideo", method = RequestMethod.GET )
-	public ResponseEntity<List<FetchVideoJson>> getAllWebSeriesVideo() {
+	@RequestMapping(value = "/getAllWebTagsVideo", method = RequestMethod.GET )
+	public ResponseEntity<List<FetchVideoJson>> getAllWebTagsVideo() {
 		
-		String token= "seriesWise";
-		List<FetchVideoJson> seriesWise = adminService.fetchAllVidsWeb(token);
+		String token= "tagsWise";
+		List<FetchVideoJson> tagsWise = adminService.fetchAllVidsWeb(token);
 		
-		return new ResponseEntity<List<FetchVideoJson>>(seriesWise, HttpStatus.OK);
+		return new ResponseEntity<List<FetchVideoJson>>(tagsWise, HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/getSpecificVids", method = RequestMethod.GET )
@@ -178,8 +178,8 @@ public class RestTempletForWeb {
 		
 		 String tableName ="uploaded_video";
 		 List<UploadedVideo> finallist=new ArrayList<UploadedVideo>();
-		UploadedVideo seriesWise = userService.getImageByImgId(id , tableName , false);
-		finallist.add(seriesWise);
+		UploadedVideo tagsWise = userService.getImageByImgId(id , tableName , false);
+		finallist.add(tagsWise);
 		return new ResponseEntity<List<UploadedVideo>>(finallist, HttpStatus.OK);
 	}
 	
@@ -187,8 +187,8 @@ public class RestTempletForWeb {
 	public ResponseEntity<List<UploadedImage>> getSpecificImage(int id) {
 		 List<UploadedImage> finallist=new ArrayList<UploadedImage>();
 		 String tableName ="uploaded_image";
-		 UploadedImage seriesWise = userService.getImageByImgId(id , tableName , false);
-		 finallist.add(seriesWise);
+		 UploadedImage tagsWise = userService.getImageByImgId(id , tableName , false);
+		 finallist.add(tagsWise);
 		return new ResponseEntity<List<UploadedImage>>(finallist, HttpStatus.OK);
 	}
 	

@@ -22,7 +22,7 @@
 <!-- 			</p> -->
 			<p class="col s3">
 			<a href="${imgvids}/user/uploadNews" class="btn-floating btn-large waves-effect waves-light green accent-3 tooltipped"
-			data-position="bottom" data-delay="50" data-tooltip="Upload an Image" >
+			data-position="bottom" data-delay="50" data-tooltip="Upload News" >
 			<i class="mdi-content-add " >Upload More</i></a></p>
 			<!-- <p class="col s3 ">
 			<input type="date" class="datepicker" placeholder="Datewise search Images" name="searchDate" id="searchDate">
@@ -52,21 +52,37 @@
                   <c:forEach items="${uniqueDate }" var="uniqueDate" varStatus="loop">
                   <p class="caption"><b>Date ${uniqueDate}</b></p>
                   <div class="divider"></div>
-              <div class="masonry-gallery-wrapper">                
-                <div class="popup-gallery">
-                  <div class="gallary-sizer"></div>
+
+                  <div class="row">
                   	<c:forEach items="${allfileList}" var="news">
                   <c:if test="${news.newSetDate eq  uniqueDate}">
                   
-                  <div class="gallary-item"><a href="${news.imageUrl }" title="${news.subject}" imageName="${news.imageName}" imgid=${news.id }>
-                  <img src="${news.imageUrl }" style="padding: 2px;"></a></div>
+<!--                   <div class="gallary-item"> -->
+                 <%--  <a href="${news.imageUrl }" title="${news.subject}" imageName="${news.imageName}" imgid=${news.id }>
+                  <img src="${news.imageUrl }" style="padding: 2px;"></a> --%>
+                  <div class="col s3 m3 l3">
+                <div class="card" >
+                  <div class="card-image">
+                    <img src="${news.imageUrl }" alt="sample">
+                    <span class="card-title">${news.subject}</span>
+                  </div>
+                  <div class="card-content">
+                    <p>${news.newsText}.</p>
+                  </div>
+                  <div class="card-action">
+                    <a href="${imgvids}/editImageInfo?imageId=${news.id}&tableName=uploaded_news">Edit</a>
+                    <a href="#" onclick="deleteAllImg('${news.id }','${news.imageName}')">Delete</a>
+                  </div>
+                </div>
+              </div>
                   </c:if>
                   </c:forEach>
                
-                </div>
-              </div>
+                 </div> 
                 <div class="divider"></div>
                   </c:forEach>
+                  
+                  
 	</c:when>
 	<c:otherwise>
 		<div class="row warningmodel">

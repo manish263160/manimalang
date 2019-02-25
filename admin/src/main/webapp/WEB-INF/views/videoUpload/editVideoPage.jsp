@@ -73,13 +73,13 @@
                         </div> --%>
                         
                   <div class="col s12 m3 l3">
-	                <p>Series</p>
+	                <p>Tags</p>
 	              </div>
                   <div class="input-field col s12 m3 l3">
-					<select name="seriesId" id="seriesId" class="validate" >
-						<option value=""  selected>Select Series</option>
-						<c:forEach items="${serieslist }" var="sers">
-							<option value="${sers.id }" ${ imageInfo.seriesId eq sers.id ? 'selected' : ''}>${sers.name }</option>
+					<select name="tagsId" id="tagsId" class="validate" >
+						<option value=""  selected>Select Tags</option>
+						<c:forEach items="${tagslist }" var="sers">
+							<option value="${sers.id }" ${ imageInfo.tagsId eq sers.id ? 'selected' : ''}>${sers.name }</option>
 						</c:forEach>
 					</select>
 				</div>   
@@ -181,7 +181,7 @@
 	                }, */
 	                categoryId :{
 	                	required: function(){
-	                		if(($("#seriesId").val() !=='' && $("#seriesId").val() != null)  || ($("#categoryId").val() !=='' && $("#categoryId").val() !=null)){
+	                		if(($("#tagsId").val() !=='' && $("#tagsId").val() != null)  || ($("#categoryId").val() !=='' && $("#categoryId").val() !=null)){
 	                			return false;
 	                		}else {
 	                			return true;

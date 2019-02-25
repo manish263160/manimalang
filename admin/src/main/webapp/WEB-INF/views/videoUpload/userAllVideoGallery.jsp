@@ -58,7 +58,7 @@
 
 			<div class="divider"></div>
 			<c:choose>
-				<c:when test="${ not empty categoriesWise || not empty seriesWise}">
+				<c:when test="${ not empty categoriesWise || not empty tagsWise}">
 					<c:if test="${ not empty categoriesWise}">
 						<h4 style="text-align: center;">
 							<b>Category Wise Video</b>
@@ -90,19 +90,19 @@
 						</c:forEach>
 					</c:if>
 
-					<c:if test="${ not empty seriesWise}">
+					<c:if test="${ not empty tagsWise}">
 						<h4 style="text-align: center;">
-							<b>Series Wise Video</b>
+							<b>Tags Wise Video</b>
 						</h4>
 						<div class="divider"></div>
-						<c:forEach items="${seriesWise }" var="serswise" varStatus="loop">
+						<c:forEach items="${tagsWise }" var="serswise" varStatus="loop">
 							<p class="caption">
-								<b>${serswise.seriesName}</b>
+								<b>${serswise.tagsName}</b>
 							</p>
 							<div class="masonry-gallery-wrapper">
 								<div class="popup-gallery">
 									<div class="gallary-sizer"></div>
-									<c:forEach items="${serswise.seriesList}" var="images">
+									<c:forEach items="${serswise.tagsList}" var="images">
 										<%--                   <c:if test="${images.newSetDate eq  uniqueDate}"> --%>
 
 										<div class="gallary-item">
@@ -121,7 +121,7 @@
 					</c:if>
 
 				</c:when>
-				<c:when test="${ empty categoriesWise &&  empty seriesWise}">
+				<c:when test="${ empty categoriesWise &&  empty tagsWise}">
 					<div class="row warningmodel">
 						<div class="col s8 m6 l6 offset-l4">
 							<div class="card">

@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.manimalang.dao.AdminDao;
 import com.manimalang.models.ApplicationPropertyKeyVal;
-import com.manimalang.models.CategrySeriesModels;
+import com.manimalang.models.CategryTagsModels;
 import com.manimalang.models.FetchVideoJson;
 import com.manimalang.models.GetVideoByCatSerDto;
 import com.manimalang.models.UploadedImage;
@@ -33,17 +33,17 @@ public class AdminServiceImpl implements AdminService {
 	private @Autowired ApplicationProperties applicationProperties;
 
 	@Override
-	public List<CategrySeriesModels> getAllCategorySeries(String fetchTable, String fromController) {
+	public List<CategryTagsModels> getAllCategoryTags(String fetchTable, String fromController) {
 		User user = GenUtilitis.getLoggedInUser();
 		if(user == null) {
 			user =new User();
 			user.setUserId(new Long(1));
 		}
-		return adminDao.getAllCategorySeries(fetchTable, user.getUserId(), fromController);
+		return adminDao.getAllCategoryTags(fetchTable, user.getUserId(), fromController);
 	}
 
 	@Override
-	public List<CategrySeriesModels> getAllCategoryForImagesVideo(int catFor) {
+	public List<CategryTagsModels> getAllCategoryForImagesVideo(int catFor) {
 		User user = GenUtilitis.getLoggedInUser();
 		if(user == null) {
 			user =new User();
@@ -66,9 +66,9 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public boolean editCategorySeries(String table, String name, int id) {
+	public boolean editCategoryTags(String table, String name, int id) {
 
-		return adminDao.editCategorySeries(table, name, id);
+		return adminDao.editCategoryTags(table, name, id);
 	}
 
 	@Override
@@ -82,8 +82,8 @@ public class AdminServiceImpl implements AdminService {
 		list.forEach((ll) -> {
 			if (token.equals("categoryWise")) {
 				catset.add(ll.getCategoryName());
-			} else if (token.equals("seriesWise")) {
-				catset.add(ll.getSeriesName());
+			} else if (token.equals("tagsWise")) {
+				catset.add(ll.getTagsName());
 			}
 		});
 
@@ -94,8 +94,8 @@ public class AdminServiceImpl implements AdminService {
 				if (token.equals("categoryWise")) {
 					uploadVid.setCategoryName(set);
 				}
-				if (token.equals("seriesWise")) {
-					uploadVid.setSeriesName(set);
+				if (token.equals("tagsWise")) {
+					uploadVid.setTagsName(set);
 				}
 				list.forEach((ll) -> {
 					if (ll != null) {
@@ -105,7 +105,7 @@ public class AdminServiceImpl implements AdminService {
 								GetVideoByCatSerDto vid = new GetVideoByCatSerDto();
 								vid.setCategoryName(ll.getCategoryName());
 								;
-								vid.setSeriesName(ll.getSeriesName());
+								vid.setTagsName(ll.getTagsName());
 								vid.setVideoLink(ll.getVideoLink());
 								url = this.applicationProperties.getProperty("appPath") + ll.getUserId()
 										+ this.applicationProperties.getProperty(ApplicationConstants.UPLOADED_VIDEO)
@@ -120,12 +120,12 @@ public class AdminServiceImpl implements AdminService {
 								vid.setCreatedOn(ll.getCreatedOn());
 								getvidsobj.add(vid);
 							}
-						} else if (token.equals("seriesWise")) {
-							if (set.equals(ll.getSeriesName())) {
+						} else if (token.equals("tagsWise")) {
+							if (set.equals(ll.getTagsName())) {
 								GetVideoByCatSerDto vid = new GetVideoByCatSerDto();
 								vid.setCategoryName(ll.getCategoryName());
 								;
-								vid.setSeriesName(ll.getSeriesName());
+								vid.setTagsName(ll.getTagsName());
 								vid.setVideoLink(ll.getVideoLink());
 								url = this.applicationProperties.getProperty("appPath") + ll.getUserId()
 										+ this.applicationProperties.getProperty(ApplicationConstants.UPLOADED_VIDEO)
@@ -162,9 +162,9 @@ public class AdminServiceImpl implements AdminService {
 				if (token.equals("categoryWise")) {
 					uploadVid.setCategoryList(getvidsobj);
 				}
-				if (token.equals("seriesWise")) {
+				if (token.equals("tagsWise")) {
 
-					uploadVid.setSeriesList(getvidsobj);
+					uploadVid.setTagsList(getvidsobj);
 				}
 				finallist.add(uploadVid);
 
@@ -187,8 +187,8 @@ public class AdminServiceImpl implements AdminService {
 		list.forEach((ll) -> {
 			if (token.equals("categoryWise")) {
 				catset.add(ll.getCategoryName());
-			} else if (token.equals("seriesWise")) {
-				catset.add(ll.getSeriesName());
+			} else if (token.equals("tagsWise")) {
+				catset.add(ll.getTagsName());
 			}
 		});
 		}
@@ -200,8 +200,8 @@ public class AdminServiceImpl implements AdminService {
 				if (token.equals("categoryWise")) {
 					uploadVid.setCategoryName(set);
 				}
-				if (token.equals("seriesWise")) {
-					uploadVid.setSeriesName(set);
+				if (token.equals("tagsWise")) {
+					uploadVid.setTagsName(set);
 				}
 				list.forEach((ll) -> {
 					if (ll != null) {
@@ -211,7 +211,7 @@ public class AdminServiceImpl implements AdminService {
 								GetVideoByCatSerDto vid = new GetVideoByCatSerDto();
 								vid.setCategoryName(ll.getCategoryName());
 								;
-								vid.setSeriesName(ll.getSeriesName());
+								vid.setTagsName(ll.getTagsName());
 								vid.setVideoLink(ll.getVideoLink());
 								url = this.applicationProperties.getProperty("appPath") + ll.getUserId()
 										+ this.applicationProperties.getProperty(ApplicationConstants.UPLOADED_VIDEO)
@@ -225,12 +225,12 @@ public class AdminServiceImpl implements AdminService {
 								vid.setCreatedBy(ll.getCreatedBy());
 								getvidsobj.add(vid);
 							}
-						} else if (token.equals("seriesWise")) {
-							if (set.equals(ll.getSeriesName())) {
+						} else if (token.equals("tagsWise")) {
+							if (set.equals(ll.getTagsName())) {
 								GetVideoByCatSerDto vid = new GetVideoByCatSerDto();
 								vid.setCategoryName(ll.getCategoryName());
 								;
-								vid.setSeriesName(ll.getSeriesName());
+								vid.setTagsName(ll.getTagsName());
 								vid.setVideoLink(ll.getVideoLink());
 								url = this.applicationProperties.getProperty("appPath") + ll.getUserId()
 										+ this.applicationProperties.getProperty(ApplicationConstants.UPLOADED_VIDEO)
@@ -252,8 +252,8 @@ public class AdminServiceImpl implements AdminService {
 				if (token.equals("categoryWise")) {
 					uploadVid.setCategoryList(getvidsobj);
 				}
-				if (token.equals("seriesWise")) {
-					uploadVid.setSeriesList(getvidsobj);
+				if (token.equals("tagsWise")) {
+					uploadVid.setTagsList(getvidsobj);
 				}
 				finallist.add(uploadVid);
 
@@ -290,8 +290,8 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<UploadedVideo> fetchVideoByCatSeries(String categoryOrSeriesName, String start, String end , String queryFor) {
-		List<UploadedVideo> list=adminDao.fetchVideoByCatSeries(categoryOrSeriesName, start, end , queryFor);
+	public List<UploadedVideo> fetchVideoByCatTags(String categoryOrTagsName, String start, String end , String queryFor) {
+		List<UploadedVideo> list=adminDao.fetchVideoByCatTags(categoryOrTagsName, start, end , queryFor);
 		list.forEach((ll) -> {
 			String url = this.applicationProperties.getProperty("appPath") + ll.getUserId()
 			+ this.applicationProperties.getProperty(ApplicationConstants.UPLOADED_VIDEO) + ll.getVideoThumbnail();
@@ -329,8 +329,8 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<UploadedImage> getAllImageForUI(String categoryOrSeriesName) {
-		List<UploadedImage> list = adminDao.getAllImageForUI(categoryOrSeriesName);
+	public List<UploadedImage> getAllImageForUI(String categoryOrTagsName) {
+		List<UploadedImage> list = adminDao.getAllImageForUI(categoryOrTagsName);
 		list.forEach((ll) -> {
 			String url = this.applicationProperties.getProperty("appPath") + ll.getUserId()
 			+ this.applicationProperties.getProperty(ApplicationConstants.UPLOADED_IMAGE) + ll.getImageUrl();
@@ -340,8 +340,8 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<UploadedVideo> getAllWebSeriesVideo() {
-		List<UploadedVideo> list = adminDao.getAllWebSeriesVideo();
+	public List<UploadedVideo> getAllWebTagsVideo() {
+		List<UploadedVideo> list = adminDao.getAllWebTagsVideo();
 		list.forEach((ll) -> {
 			String url = this.applicationProperties.getProperty("appPath") + ll.getUserId()
 			+ this.applicationProperties.getProperty(ApplicationConstants.UPLOADED_VIDEO) + ll.getVideoThumbnail();
@@ -351,7 +351,7 @@ public class AdminServiceImpl implements AdminService {
 	}
 
 	@Override
-	public List<CategrySeriesModels> getRestAllCategory(int catFor , String table) {
+	public List<CategryTagsModels> getRestAllCategory(int catFor , String table) {
 		User user = GenUtilitis.getLoggedInUser();
 		if(user == null) {
 			user =new User();

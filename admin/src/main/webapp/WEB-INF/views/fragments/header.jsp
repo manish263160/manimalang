@@ -91,7 +91,7 @@
                                 <ul>
                                     <li><a href="${imgvids}/admin/addCategory">Add Category</a>
                                     </li>
-                                    <li><a href="${imgvids}/admin/addSeries">Add Series</a>
+                                    <li><a href="${imgvids}/admin/addTags">Add Tags</a>
                                     </li>
                                 </ul>
                             </div>

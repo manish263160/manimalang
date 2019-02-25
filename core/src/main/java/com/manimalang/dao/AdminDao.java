@@ -3,7 +3,7 @@ package com.manimalang.dao;
 import java.util.List;
 
 import com.manimalang.models.ApplicationPropertyKeyVal;
-import com.manimalang.models.CategrySeriesModels;
+import com.manimalang.models.CategryTagsModels;
 import com.manimalang.models.GetVideoByCatSerDto;
 import com.manimalang.models.UploadedImage;
 import com.manimalang.models.UploadedVideo;
@@ -11,14 +11,14 @@ import com.manimalang.models.User;
 
 public interface AdminDao {
 
-	List<CategrySeriesModels> getAllCategorySeries(String fetchTable, Long userId, String fromController);
+	List<CategryTagsModels> getAllCategoryTags(String fetchTable, Long userId, String fromController);
 
-	List<CategrySeriesModels> getAllCategoryForImages(User user, int catFor);
+	List<CategryTagsModels> getAllCategoryForImages(User user, int catFor);
 	boolean insertCategory(String value ,String name, Long userId, String catFor);
 
 	boolean deleteCatSer(String value, int id, Long userID);
 
-	boolean editCategorySeries(String table, String name, int id);
+	boolean editCategoryTags(String table, String name, int id);
 
 	List<GetVideoByCatSerDto> fetchAllVids(String token, String start, String end);
 
@@ -26,7 +26,7 @@ public interface AdminDao {
 
 	List<UploadedImage> fetchBunchOfImage( String categoryName, String start, String end);
 
-	List<UploadedVideo> fetchVideoByCatSeries(String categoryOrSeriesName, String start, String end, String queryFor);
+	List<UploadedVideo> fetchVideoByCatTags(String categoryOrTagsName, String start, String end, String queryFor);
 
 	<T> List<T> getAllVidsForUI(String catId);
 
@@ -34,11 +34,11 @@ public interface AdminDao {
 
 	List<UploadedImage> searchImage(String text);
 
-	List<UploadedImage> getAllImageForUI(String categoryOrSeriesName);
+	List<UploadedImage> getAllImageForUI(String categoryOrTagsName);
 
-	List<UploadedVideo> getAllWebSeriesVideo();
+	List<UploadedVideo> getAllWebTagsVideo();
 
-	List<CategrySeriesModels> getRestAllCategory(User user, int catFor ,String table );
+	List<CategryTagsModels> getRestAllCategory(User user, int catFor ,String table );
 
 
 }

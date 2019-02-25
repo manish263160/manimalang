@@ -11,7 +11,7 @@ public class GetVideoByCatSerDto implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	private String categoryName;
-	private String seriesName;
+	private String tagsName;
 	private long id;
 	private long userId;
 	private String catId;
@@ -19,7 +19,7 @@ public class GetVideoByCatSerDto implements Serializable{
 	private String  videoLink;
 	private String videoThumbnail;
 	private String categoryId;
-	private String seriesId;
+	private String tagsId;
 	private String timeLength;
 	private String title;
 	private String description;
@@ -33,11 +33,11 @@ public class GetVideoByCatSerDto implements Serializable{
 	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
 	}
-	public String getSeriesName() {
-		return seriesName;
+	public String getTagsName() {
+		return tagsName;
 	}
-	public void setSeriesName(String seriesName) {
-		this.seriesName = seriesName;
+	public void setTagsName(String tagsName) {
+		this.tagsName = tagsName;
 	}
 	public long getId() {
 		return id;
@@ -82,14 +82,14 @@ public class GetVideoByCatSerDto implements Serializable{
 		else
 			this.categoryId = "";
 	}
-	public String getSeriesId() {
-		return seriesId;
+	public String getTagsId() {
+		return tagsId;
 	}
-	public void setSeriesId(String seriesId) {
-		if(seriesId != null)
-		this.seriesId = seriesId;
+	public void setTagsId(String tagsId) {
+		if(tagsId != null)
+		this.tagsId = tagsId;
 		else 
-			this.seriesId = "";
+			this.tagsId = "";
 	}
 	public String getTimeLength() {
 		return timeLength;

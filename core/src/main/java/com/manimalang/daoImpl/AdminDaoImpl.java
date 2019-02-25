@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
 import com.manimalang.Enums.STATUS;
 import com.manimalang.dao.AdminDao;
 import com.manimalang.models.ApplicationPropertyKeyVal;
-import com.manimalang.models.CategrySeriesModels;
+import com.manimalang.models.CategryTagsModels;
 import com.manimalang.models.GetVideoByCatSerDto;
 import com.manimalang.models.UploadedImage;
 import com.manimalang.models.UploadedVideo;
@@ -30,25 +30,25 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao {
 	private static final Logger logger = Logger.getLogger(AdminDaoImpl.class);
 
 	@Override
-	public List<CategrySeriesModels> getAllCategorySeries(String fetchTable, Long userId, String fromController) {
+	public List<CategryTagsModels> getAllCategoryTags(String fetchTable, Long userId, String fromController) {
 
-		String query = "select * from " + fetchTable + " where user_id=? ";
+		String query = "select * from " + fetchTable ; //user_id=?
 				if(fetchTable.equals("categories") && fromController.equals("uploadVideo")) {
-				query += " and cat_for="+STATUS.VIDEO.ID;
+				query += "where  cat_for="+STATUS.VIDEO.ID;
 				}else if(fetchTable.equals("categories") && fromController.equals("newsFeed")) {
-					query += " and cat_for="+STATUS.NEWS_FEED.ID;	
+					query += "where  cat_for="+STATUS.NEWS_FEED.ID;	
 				}
 				query += " order by id";
-		List<CategrySeriesModels> list = getJdbcTemplate().query(query,
-				new BeanPropertyRowMapper<CategrySeriesModels>(CategrySeriesModels.class), userId);
+		List<CategryTagsModels> list = getJdbcTemplate().query(query,
+				new BeanPropertyRowMapper<CategryTagsModels>(CategryTagsModels.class));
 		return list;
 	}
 	
 	@Override
-	public List<CategrySeriesModels> getAllCategoryForImages(User user, int catFor) {
+	public List<CategryTagsModels> getAllCategoryForImages(User user, int catFor) {
 		String query = "select * from categories where user_id=? and cat_for=? order by id";
-		List<CategrySeriesModels> list = getJdbcTemplate().query(query,
-				new BeanPropertyRowMapper<CategrySeriesModels>(CategrySeriesModels.class), user.getUserId(),catFor);
+		List<CategryTagsModels> list = getJdbcTemplate().query(query,
+				new BeanPropertyRowMapper<CategryTagsModels>(CategryTagsModels.class), user.getUserId(),catFor);
 		return list;
 	}
 
@@ -76,7 +76,7 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao {
 	}
 
 	@Override
-	public boolean editCategorySeries(String table, String name, int id) {
+	public boolean editCategoryTags(String table, String name, int id) {
 		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		Date curdate1 = new Date();
 		String currentTime1 = sdf1.format(curdate1);
@@ -91,7 +91,7 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao {
 		List<GetVideoByCatSerDto> get = null;
 		try {
 			if (token.equals("categoryWise")) {
-				String query = "select c.name as category_name,c.id as catId,s.name as series_name ,uv.* from uploaded_video uv left join categories c on uv.category_id = c.id left outer join series s on uv.series_id = s.id ";
+				String query = "select c.name as category_name,c.id as catId,s.name as tags_name ,uv.* from uploaded_video uv left join categories c on uv.category_id = c.id left outer join tags s on uv.tags_id = s.id ";
 				if (start != null && !start.equals("") && end != null && !end.equals("")) {
 					query += " where uv.id >= " + start + " and uv.id <=" + end;
 				}
@@ -99,8 +99,8 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao {
 				logger.debug("fetchAllVids query "+query);
 				get = getJdbcTemplate().query(query,
 						new BeanPropertyRowMapper<GetVideoByCatSerDto>(GetVideoByCatSerDto.class));
-			} else if (token.equals("seriesWise")) {
-				String query = "select c.name as category_name,c.id as catId,s.name as series_name,s.id as serID ,uv.* from uploaded_video uv left join categories c on uv.category_id = c.id left outer join series s on uv.series_id = s.id ";
+			} else if (token.equals("tagsWise")) {
+				String query = "select c.name as category_name,c.id as catId,s.name as tags_name,s.id as serID ,uv.* from uploaded_video uv left join categories c on uv.category_id = c.id left outer join tags s on uv.tags_id = s.id ";
 				if (start != null && !start.equals("") && end != null && !end.equals("")) {
 					query += " where uv.id >= " + start + " and uv.id <=" + end;
 				}
@@ -121,7 +121,7 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao {
 	public List<GetVideoByCatSerDto> searchVideo(String data) {
 		List<GetVideoByCatSerDto> get = null;
 		try {
-			String query = "select c.name as category_name,s.name as series_name ,uv.* from  uploaded_video uv left join categories c on uv.category_id = c.id left outer join series s on uv.series_id = s.id where "
+			String query = "select c.name as category_name,s.name as tags_name ,uv.* from  uploaded_video uv left join categories c on uv.category_id = c.id left outer join tags s on uv.tags_id = s.id where "
 					+ " uv.title like ? or uv.description like ? or c.name like ? or s.name like ? "
 					+ " order by uv.created_on desc;";
 			get = getJdbcTemplate().query(query,
@@ -172,7 +172,7 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao {
 	}
 
 	@Override
-	public List<UploadedVideo> fetchVideoByCatSeries(String categoryOrSeriesName, String start, String end,
+	public List<UploadedVideo> fetchVideoByCatTags(String categoryOrTagsName, String start, String end,
 			String queryFor) {
 		List<UploadedVideo> getData = null;
 		try {
@@ -182,27 +182,27 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao {
 				query = new StringBuffer(
 						"select * from (select  @s:=@s+1 serial_number, uv.*, cat.name as category_name , (select count(*) from uploaded_video where category_id = cat.id  ) total_video_count from uploaded_video uv ");
 				query.append("left join categories cat on uv.category_id = cat.id , (SELECT @s:= 0) AS s ");
-				if(categoryOrSeriesName != null && !categoryOrSeriesName.equals("")) {
+				if(categoryOrTagsName != null && !categoryOrTagsName.equals("")) {
 				query.append("where cat.name=? and cat.cat_for=" + STATUS.VIDEO.ID + " and uv.user_id = 3) tbl ");
 				query.append(" where tbl.serial_number between ? and ? ;");
 				getData = getJdbcTemplate().query(query.toString(),
-						new BeanPropertyRowMapper<UploadedVideo>(UploadedVideo.class), categoryOrSeriesName, start,
+						new BeanPropertyRowMapper<UploadedVideo>(UploadedVideo.class), categoryOrTagsName, start,
 						end);
-				}else if(categoryOrSeriesName == null) {
+				}else if(categoryOrTagsName == null) {
 					query.append("where cat.cat_for=" + STATUS.VIDEO.ID + " and uv.user_id = 3) tbl ");
 					query.append(" where tbl.serial_number between ? and ? ;");
 					getData = getJdbcTemplate().query(query.toString(),
 							new BeanPropertyRowMapper<UploadedVideo>(UploadedVideo.class), start,
 							end);
 				}
-			} else if (queryFor.equals("series")) {
+			} else if (queryFor.equals("tags")) {
 				query = new StringBuffer(
-						"select * from (select  @s:=@s+1 serial_number, uv.*, ser.name as series_name , (select count(*) from uploaded_video where series_id = ser.id  ) total_video_count from uploaded_video uv ");
-				query.append("left join series ser on uv.series_id = ser.id , (SELECT @s:= 0) AS s ");
+						"select * from (select  @s:=@s+1 serial_number, uv.*, ser.name as tags_name , (select count(*) from uploaded_video where tags_id = ser.id  ) total_video_count from uploaded_video uv ");
+				query.append("left join tags ser on uv.tags_id = ser.id , (SELECT @s:= 0) AS s ");
 				query.append("where ser.name=? and uv.user_id = 3) tbl");
 				query.append(" where tbl.serial_number between ? and ? ;");
 				getData = getJdbcTemplate().query(query.toString(),
-						new BeanPropertyRowMapper<UploadedVideo>(UploadedVideo.class), categoryOrSeriesName, start,
+						new BeanPropertyRowMapper<UploadedVideo>(UploadedVideo.class), categoryOrTagsName, start,
 						end);
 			}
 			logger.debug("query===" + query.toString());
@@ -276,16 +276,16 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao {
 	}
 
 	@Override
-	public List<UploadedImage> getAllImageForUI(String categoryOrSeriesName) {
+	public List<UploadedImage> getAllImageForUI(String categoryOrTagsName) {
 		String query =null;
 		
 			String tablename = "uploaded_image";
 		List<UploadedImage> list =null;
 		try {
-			if(categoryOrSeriesName != null && !categoryOrSeriesName.trim().equals("")) {
+			if(categoryOrTagsName != null && !categoryOrTagsName.trim().equals("")) {
 				query ="select ct.name as category_name ,uv.* from "+tablename+" uv left join categories ct on uv.category_id =ct.id where ct.name=? order by uv.created_on desc";
 				list = getJdbcTemplate().query(query.toString(),
-						new BeanPropertyRowMapper<UploadedImage>(UploadedImage.class ) , categoryOrSeriesName.trim());
+						new BeanPropertyRowMapper<UploadedImage>(UploadedImage.class ) , categoryOrTagsName.trim());
 			}else {
 			query ="select ct.name as category_name ,uv.* from "+tablename+" uv left join categories ct on uv.category_id =ct.id order by uv.created_on desc";
 			list = getJdbcTemplate().query(query.toString(),
@@ -300,11 +300,11 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao {
 	}
 
 	@Override
-	public List<UploadedVideo> getAllWebSeriesVideo() {
+	public List<UploadedVideo> getAllWebTagsVideo() {
 		List<UploadedVideo> list =null;
 		try {
 			
-			String query ="select s.name as series_name ,uv.* from uploaded_video uv left join series s on uv.series_id =s.id  order by uv.created_on desc;";
+			String query ="select s.name as tags_name ,uv.* from uploaded_video uv left join tags s on uv.tags_id =s.id  order by uv.created_on desc;";
 			list = getJdbcTemplate().query(query.toString(),
 					new BeanPropertyRowMapper<UploadedVideo>(UploadedVideo.class));
 		} catch (EmptyResultDataAccessException e) {
@@ -316,11 +316,11 @@ public class AdminDaoImpl extends ImageVideoJdbcDaoSupport implements AdminDao {
 	}
 
 	@Override
-	public List<CategrySeriesModels> getRestAllCategory(User user, int catFor, String table) {
+	public List<CategryTagsModels> getRestAllCategory(User user, int catFor, String table) {
 //		String query = "select  c.* from "+table+" u left join categories c  on u.category_id=c.id  where c.user_id=? and c.cat_for=? group by c.id order by c.id;" ;
 		String query = "select  c.* from categories c where c.user_id=? and c.cat_for=? group by c.id order by c.id;" ;
-		List<CategrySeriesModels> list = getJdbcTemplate().query(query,
-				new BeanPropertyRowMapper<CategrySeriesModels>(CategrySeriesModels.class), user.getUserId(),catFor);
+		List<CategryTagsModels> list = getJdbcTemplate().query(query,
+				new BeanPropertyRowMapper<CategryTagsModels>(CategryTagsModels.class), user.getUserId(),catFor);
 		return list;
 	}
 	

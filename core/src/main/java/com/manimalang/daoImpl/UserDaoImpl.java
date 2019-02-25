@@ -187,10 +187,10 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 			if(obj instanceof UploadedVideo){
 				vid=(UploadedVideo) obj;
 						Sqlquery = "INSERT INTO " + tableName + " ( user_id , " + columnName
-						+ " ,video_link,category_id,series_id,time_length,title,description, created_on ,created_by) "
+						+ " ,video_link,category_id,tags_id,time_length,title,description, created_on ,created_by) "
 						+ " VALUES (?,?,?,?,?,?,?,?,?,?)";
 				rowInsert = getJdbcTemplate().update(Sqlquery, userid, value,vid.getVideoLink()
-						,vid.getCategoryId(),vid.getSeriesId(),vid.getTimeLength(),vid.getTitle(),vid.getDescription() ,currentTime1,user.getName());
+						,vid.getCategoryId(),vid.getTagsId(),vid.getTimeLength(),vid.getTitle(),vid.getDescription() ,currentTime1,user.getName());
 			}
 		}else {
 			UploadedNews news = null;
@@ -353,6 +353,19 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 			}
 			return (T) umg;
 		}
+		if (tableName.equals("uploaded_news")) {
+			UploadedNews umg = null;
+			try {
+				String query = "select * from uploaded_news where id=?;";
+				umg = getJdbcTemplate().queryForObject(query,
+						new BeanPropertyRowMapper<UploadedNews>(UploadedNews.class), editImageInfo);
+			} catch (EmptyResultDataAccessException e) {
+				logger.error(" getImageByImgId() EmptyResultDataAccessException");
+			} catch (DataAccessException e) {
+				logger.error(" getImageByImgId() DataAccessException");
+			}
+			return (T) umg;
+		}
 
 		return null;
 	}
@@ -377,7 +390,7 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 					uploadedImage.getImageDescription(), uploadedImage.getLinkType(), uploadedImage.getId());
 		}
 		}
-		if(tableName.equals("uploaded_video")){
+		else if(tableName.equals("uploaded_video")){
 			UploadedVideo uploadedVideo= (UploadedVideo) obj;
 			final StringBuilder sql = new StringBuilder();
 			try {
@@ -385,16 +398,16 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 				
 			sql.append(
 					"update uploaded_video set video_thumbnail=?,video_link = ?, description = ?,"
-					+ " series_id=?, time_length=? , title=?, modified_on = now() where video_thumbnail= ?");
+					+ " tags_id=?, time_length=? , title=?, modified_on = now() where video_thumbnail= ?");
 			rowcount = getJdbcTemplate().update(sql.toString(),uploadedVideo.getVideoThumbnail(), uploadedVideo.getVideoLink(),
-					uploadedVideo.getDescription(),   uploadedVideo.getSeriesId(), uploadedVideo.getTimeLength() ,
+					uploadedVideo.getDescription(),   uploadedVideo.getTagsId(), uploadedVideo.getTimeLength() ,
 					uploadedVideo.getTitle() ,uploadedVideo.getOldVideoName());
 			}else{
 				sql.append(
 						"update uploaded_video set video_link = ?, description = ?,"
-								+ " series_id=?, time_length=? , title=?, modified_on = now() where video_thumbnail= ?");
+								+ " tags_id=?, time_length=? , title=?, modified_on = now() where video_thumbnail= ?");
 				rowcount = getJdbcTemplate().update(sql.toString(),uploadedVideo.getVideoLink(),
-						uploadedVideo.getDescription(),  uploadedVideo.getSeriesId(), uploadedVideo.getTimeLength() ,
+						uploadedVideo.getDescription(),  uploadedVideo.getTagsId(), uploadedVideo.getTimeLength() ,
 						uploadedVideo.getTitle() ,uploadedVideo.getOldVideoName());
 			}
 			
@@ -404,6 +417,18 @@ public class UserDaoImpl extends ImageVideoJdbcDaoSupport implements UserDao {
 				logger.error(" DataAccessException");
 			}
 			}
+		else if(tableName.equals("uploaded_news")) {
+
+			UploadedNews uploadedNews= (UploadedNews) obj;
+			final StringBuilder sql = new StringBuilder();
+			
+				sql.append(
+						"update uploaded_news set news_link = ?, news_text= ?,subject = ? where id= ?");
+				rowcount = getJdbcTemplate().update(sql.toString(), uploadedNews.getNewsLink(),
+						uploadedNews.getNewsText(), uploadedNews.getSubject(), uploadedNews.getId());
+			
+			
+		}
 		if (rowcount > 0) {
 			returndata = true;
 		}

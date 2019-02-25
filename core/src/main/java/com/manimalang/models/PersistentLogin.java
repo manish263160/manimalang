@@ -11,7 +11,7 @@ public class PersistentLogin implements Serializable{
 	 */
 	private static final long serialVersionUID = 5553386853424322059L;
 
-	private String series;
+	private String tags;
 
 	private String username;
 	
@@ -19,12 +19,12 @@ public class PersistentLogin implements Serializable{
 	
 	private Date last_used;
 
-	public String getSeries() {
-		return series;
+	public String getTags() {
+		return tags;
 	}
 
-	public void setSeries(String series) {
-		this.series = series;
+	public void setTags(String tags) {
+		this.tags = tags;
 	}
 
 	public String getUsername() {

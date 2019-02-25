@@ -19,8 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.manimalang.Enums.STATUS;
 import com.manimalang.exception.GenericException;
-import com.manimalang.models.CategrySeriesModels;
+import com.manimalang.models.CategryTagsModels;
 import com.manimalang.models.UploadedImage;
 import com.manimalang.models.UploadedNews;
 import com.manimalang.models.UploadedVideo;
@@ -105,34 +106,41 @@ public class FileUploadController {
 			ModelMap model, @RequestParam(name = "error", required = false) String error) {
 		model.addAttribute("error", error);
 		model.addAttribute("themecolor", this.applicationProperties.getProperty("themecolor"));
-		if (tableName.equals("uploaded_image")) {
-			UploadedImage upload = this.userService.getImageByImgId(editImageInfo, tableName, false);
-			model.addAttribute("imageInfo", upload);
-		}
-		if (tableName.equals("uploaded_video")) {
-			UploadedVideo upload = this.userService.getImageByImgId(editImageInfo, tableName, false);
-			model.addAttribute("imageInfo", upload);
-			String fetchTable = "series";
-			List<CategrySeriesModels> serieslist = adminService.getAllCategorySeries(fetchTable, "editImageInfo");
+		if (tableName != null) {
+			if (tableName.equals("uploaded_image")) {
+				UploadedImage upload = this.userService.getImageByImgId(editImageInfo, tableName, false);
+				model.addAttribute("imageInfo", upload);
 
-			String fetchTablecate = "categories";
-			List<CategrySeriesModels> categorylist = adminService.getAllCategorySeries(fetchTablecate, "editImageInfo");
+				return "imageUpload/editImageById";
+			} else if (tableName.equals("uploaded_video")) {
+				UploadedVideo upload = this.userService.getImageByImgId(editImageInfo, tableName, false);
+				model.addAttribute("imageInfo", upload);
+				String fetchTable = "tags";
+				List<CategryTagsModels> tagslist = adminService.getAllCategoryTags(fetchTable, "editImageInfo");
 
-			model.addAttribute("categorylist", categorylist);
-			model.addAttribute("serieslist", serieslist);
+				String fetchTablecate = "categories";
+				List<CategryTagsModels> categorylist = adminService.getAllCategoryTags(fetchTablecate,
+						"editImageInfo");
+
+				model.addAttribute("categorylist", categorylist);
+				model.addAttribute("tagslist", tagslist);
+				return "videoUpload/editVideoPage";
+			} else if (tableName.equals("uploaded_news")) {
+				UploadedNews upload = this.userService.getImageByImgId(editImageInfo, tableName, false);
+				model.addAttribute("imageInfo", upload);
+				List<CategryTagsModels> categorylist=adminService.getAllCategoryForImagesVideo(STATUS.IMAGE.ID);
+				model.addAttribute("categorylist", categorylist);
+				return "newsUploaded/edituploadNews";
+			}
 		}
-		if (tableName.equals("uploaded_news")) {
-			UploadedNews upload = this.userService.getImageByImgId(editImageInfo, tableName, false);
-			model.addAttribute("imageInfo", upload);
-		}
-		return tableName.equals("uploaded_image") ? "imageUpload/editImageById" : tableName.equals("uploaded_video") ? "videoUpload/editVideoPage" : "newsUploaded/uploadNews" ;
+		return null;
 	}
 
 	@RequestMapping(value = { "/editImageUpload" }, method = { RequestMethod.POST })
 	public String editImageUpload(@RequestParam(value = "file", required = false) MultipartFile file,
 			@RequestParam(value = "tableName", required = false) String tableName,
 			@ModelAttribute("uploadedImage") UploadedImage uploadedImage,
-			@ModelAttribute("uploadedVideo") UploadedVideo uploadedVideo, ModelMap model) throws IOException {
+			@ModelAttribute("uploadedVideo") UploadedVideo uploadedVideo,@ModelAttribute("uploadedNews") UploadedNews uploadedNews, ModelMap model) throws IOException {
 		if (uploadedImage.getLinkType() == null) {
 			uploadedImage.setLinkType(Integer.valueOf(1));
 		}
@@ -142,17 +150,22 @@ public class FileUploadController {
 			boolean token = true;
 			UploadedImage imageinfo = null;
 			UploadedVideo vidInfo = null;
-			String oldVideoName = null;
+			UploadedNews newsinfo = null;
+			String oldName = null;
 			if (tableName.equals("uploaded_image")) {
 				imageinfo = userService.getImageByImgId((int) uploadedImage.getId(), tableName, token);
-				oldVideoName = imageinfo.getImageUrl();
+				oldName = imageinfo.getImageUrl();
 			}
-			if (tableName.equals("uploaded_video")) {
+			else if (tableName.equals("uploaded_video")) {
 				vidInfo = userService.getImageByImgId((int) uploadedVideo.getId(), tableName, token);
-				oldVideoName = vidInfo.getVideoThumbnail();
+				oldName = vidInfo.getVideoThumbnail();
+			}
+			else if(tableName.equals("uploaded_news" )) {
+				newsinfo = userService.getImageByImgId((int) uploadedNews.getId(), tableName, token);
+				oldName = newsinfo.getImageUrl();
 			}
 
-			uploadedVideo.setOldVideoName(oldVideoName);
+			uploadedVideo.setOldVideoName(oldName);
 			if (file != null) {
 				if (file.getOriginalFilename().equals("")) {
 					if (tableName.equals("uploaded_image")) {
@@ -218,15 +231,25 @@ public class FileUploadController {
 					}
 				}
 			}
-			if (tableName.equals("uploaded_image")) {
-				model.addAttribute("token", "image");
-			}
-			if (tableName.equals("uploaded_video")) {
-				model.addAttribute("token", "video");
+			else {
+				if (tableName.equals("uploaded_news")) {
+					bool = userService.editImageUpload(uploadedNews, tableName);
+				}
 			}
 			model.addAttribute("isEdited", Boolean.valueOf(bool));
 			model.addAttribute("themecolor", this.applicationProperties.getProperty("themecolor"));
-			return "imageUpload/editImageById";
+			if (tableName.equals("uploaded_image")) {
+				model.addAttribute("token", "image");
+				return "imageUpload/editImageById";
+			}
+			else if (tableName.equals("uploaded_video")) {
+				model.addAttribute("token", "video");
+				return "imageUpload/editImageById";
+			}else if (tableName.equals("uploaded_news")) {
+				model.addAttribute("token", "news");
+				return "newsUploaded/edituploadNews";
+			}
+			return null;
 		} catch (Exception e) {
 			logger.error(" editImageUpload() Exception");
 			return "redirect:editImageInfo?error=" + e.getMessage();
@@ -249,8 +272,8 @@ public class FileUploadController {
 			}
 			if (tableName.equals("uploaded_video")) {
 				imagePath = imagePath + user.getUserId() + this.applicationProperties.getProperty("uploadVideoFolder");
-			} 
-			if(tableName.equals("uploaded_news")) {
+			}
+			if (tableName.equals("uploaded_news")) {
 				imagePath = imagePath + user.getUserId() + this.applicationProperties.getProperty("newsFolder");
 			}
 			if (imageId != null) {

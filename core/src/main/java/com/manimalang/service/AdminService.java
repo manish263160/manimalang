@@ -3,7 +3,7 @@ package com.manimalang.service;
 import java.util.List;
 
 import com.manimalang.models.ApplicationPropertyKeyVal;
-import com.manimalang.models.CategrySeriesModels;
+import com.manimalang.models.CategryTagsModels;
 import com.manimalang.models.FetchVideoJson;
 import com.manimalang.models.GetVideoByCatSerDto;
 import com.manimalang.models.UploadedImage;
@@ -11,14 +11,14 @@ import com.manimalang.models.UploadedVideo;
 
 public interface AdminService {
 
-	List<CategrySeriesModels> getAllCategorySeries(String fetchTable, String fromController);
+	List<CategryTagsModels> getAllCategoryTags(String fetchTable, String fromController);
 
-	List<CategrySeriesModels> getAllCategoryForImagesVideo(int catFor);
+	List<CategryTagsModels> getAllCategoryForImagesVideo(int catFor);
 	boolean insertCategory(String value ,String name, String catFor);
 
 	boolean deleteCatSer(String value, int id);
 
-	boolean editCategorySeries(String table, String name, int id);
+	boolean editCategoryTags(String table, String name, int id);
 
 	List<FetchVideoJson> fetchAllVidsWeb(String token);
 	
@@ -28,7 +28,7 @@ public interface AdminService {
 
 	List<UploadedImage> fetchBunchOfImage(String categoryName, String start, String end);
 
-	List<UploadedVideo> fetchVideoByCatSeries(String categoryOrSeriesName, String start, String end, String queryFor);
+	List<UploadedVideo> fetchVideoByCatTags(String categoryOrTagsName, String start, String end, String queryFor);
 
 	List<UploadedVideo> getAllVidsForUI(String catId);
 
@@ -36,11 +36,11 @@ public interface AdminService {
 
 	List<UploadedImage> searchImage(String text);
 
-	List<UploadedImage> getAllImageForUI(String categoryOrSeriesName);
+	List<UploadedImage> getAllImageForUI(String categoryOrTagsName);
 
-	List<UploadedVideo> getAllWebSeriesVideo();
+	List<UploadedVideo> getAllWebTagsVideo();
 
-	List<CategrySeriesModels> getRestAllCategory(int catFor, String table); 
+	List<CategryTagsModels> getRestAllCategory(int catFor, String table); 
 
 
 }

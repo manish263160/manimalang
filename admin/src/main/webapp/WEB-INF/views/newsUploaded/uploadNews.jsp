@@ -137,7 +137,7 @@
 				</div>
 
 				<div class="input-field col s8 m8 l9">
-					<textarea id="newsText" maxlength="250" autocomplete="off"
+					<textarea id="newsText" maxlength="1900" autocomplete="off" class="materialize-textarea" 
 						name="newsText" placeholder="News Description"></textarea>
 				</div>
 			</div>
@@ -230,7 +230,7 @@
 	        function changeSelect(){
 	        	console.log("------",$("#categoryId").val());
 	        }
-	        $("#newsText").summernote({
+	        $("#newsText1").summernote({
 	        	 height: 150,
 	             callbacks: {
 	               onKeydown: function(e) {
